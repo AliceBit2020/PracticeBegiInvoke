@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,16 @@ namespace PracticeBeginInvoke.Controller
             func.BeginInvoke(20, -20, 20,Task1CallBack, Tuple.Create(func, ctx, listBox));
   
         }
+        public static void Task1(SynchronizationContext ctx, ListBox listBox)
+        {
+            Func<int, int, int, List<int>> func = GenerateNumber;
 
+           IAsyncResult ar= func.BeginInvoke(20, -20, 20, null,null);
+            List<int> list =func.EndInvoke(ar);
+
+            ctx.Send(s => listBox.Items.AddRange(list.Cast<object>().ToArray()), null);
+
+        }
         private static void Task1CallBack(IAsyncResult ar)
         {
             if (ar.AsyncState is Tuple<Func<int, int, int, List<int>>, SynchronizationContext, ListBox> state)

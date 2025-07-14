@@ -23,8 +23,8 @@ namespace PracticeBegiInvoke
 
         private void button1_Click(object sender, EventArgs e)
         {
-        Task1Controller.BeginTask1(uiContext,listBox1);
-          
+           Task1Controller.BeginTask1(uiContext,listBox1);
+           // Task1Controller.Task1(uiContext, listBox1);
         }
     }
 }
