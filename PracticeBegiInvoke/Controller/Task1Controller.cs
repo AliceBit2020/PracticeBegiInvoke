@@ -17,9 +17,16 @@ namespace PracticeBeginInvoke.Controller
         public static void BeginTask1(SynchronizationContext ctx,ListBox listBox)
         {
             Func<int, int, int, List<int>> func = GenerateNumber ;
+            try
+            {
+                func.BeginInvoke(20, -20, 20, Task1CallBack, Tuple.Create(func, ctx, listBox));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            func.BeginInvoke(20, -20, 20,Task1CallBack, Tuple.Create(func, ctx, listBox));
-  
+
         }
         public static void Task1(SynchronizationContext ctx, ListBox listBox)
         {
@@ -51,6 +58,15 @@ namespace PracticeBeginInvoke.Controller
 
         public static List<int> GenerateNumber(int numberCount,int minNum, int maxNum)
         {
+            //try
+            //{
+            //    throw new ArgumentNullException();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+
             List<int> result = new List<int>();
             for (int i = 0; i < numberCount; i++)
             {
@@ -62,7 +78,22 @@ namespace PracticeBeginInvoke.Controller
         }
 
 
-
+        public static void BeginTask2()
+        {
+            Action func = Test2;
+            try
+            {
+                func.BeginInvoke( null, null);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public static void Test2()
+        {
+            throw new ArgumentNullException();
+        }
 
     }
 }
